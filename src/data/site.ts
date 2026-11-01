@@ -19,8 +19,8 @@ export const site = {
     poster: "/media/posters/showreel.jpg",
   },
   contact: {
-    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "hello@example.com",
-    emailIsSample: !process.env.NEXT_PUBLIC_CONTACT_EMAIL,
+    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "jeongryul94@gmail.com",
+    emailIsSample: false,
     links: [
       { label: "GitHub", href: process.env.NEXT_PUBLIC_GITHUB_URL ?? "" },
       { label: "YouTube", href: process.env.NEXT_PUBLIC_YOUTUBE_URL ?? "" },
@@ -49,12 +49,13 @@ export const about = {
     { title: "근거 있는 장면", body: "모든 컷은 이야기를 한 걸음 앞으로 옮기는 이유가 있어야 합니다." },
     { title: "기술은 도구", body: "AI와 3D는 표현의 폭을 넓히고 제작 시간을 줄이는 데 씁니다." },
   ],
-  /** TODO: 실제 경력으로 교체. 확인되지 않은 수치·성과는 넣지 마세요. */
+  /** 확인되지 않은 수치·성과는 넣지 마세요. */
   career: {
-    sample: true,
+    sample: false,
     items: [
-      { period: "20XX — 현재", title: "프리랜서 영상 제작자", body: "기업 홍보영상 · 광고 · 모션그래픽" },
-      { period: "20XX — 20XX", title: "소속 / 직함", body: "담당 업무를 입력하세요" },
+      { period: "2024 — 현재", title: "데이터분석 영상제작", body: "데이터 분석 기반 영상 제작" },
+      { period: "2022 — 2023", title: "YATA 외 구독자 20만 채널", body: "유튜브 영상편집자" },
+      { period: "2019 — 2021", title: "(주)머니업", body: "기업영상 제작 (3년)" },
     ],
   },
   /** TODO: 실제 사용하는 툴로 교체 */

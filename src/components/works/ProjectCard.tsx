@@ -160,6 +160,7 @@ export function ProjectCard({ project, index, featured = false }: Props) {
         <div className="mt-4 flex items-start justify-between gap-4">
           <div className="min-w-0">
             <h3 className="text-lg font-semibold leading-snug tracking-tight md:text-xl">{project.title}</h3>
+            <p className="mt-1 truncate text-sm text-fg/75">{project.summary}</p>
             <p className="mt-1 text-sm text-muted">{meta}</p>
           </div>
           <ArrowUpRight

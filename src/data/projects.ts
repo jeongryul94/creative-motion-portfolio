@@ -47,7 +47,7 @@ export const projects: Project[] = [
     id: "p02",
     slug: "why-solaseado",
     title: "우리는 왜 솔라시도에 주목해야 할까",
-    summary: "ESG·탄소중립 흐름 속 솔라시도의 가치를 설명하는 기업 홍보영상",
+    summary: "ESG·RE100 시대, 솔라시도에 주목해야 할 이유를 담은 기업 홍보영상",
     category: "Commercial",
     featured: false,
     description:
@@ -75,7 +75,7 @@ export const projects: Project[] = [
     id: "p03",
     slug: "judang-bichaek-tvc",
     title: "주당비책 TV 광고",
-    summary: "사무실 상황극으로 풀어낸 숙취해소 제품 30초 광고",
+    summary: "흩어진 글자가 제품명으로 완성되는 숙취해소제 30초 TV 광고",
     category: "Commercial",
     featured: false,
     description:
@@ -152,6 +152,74 @@ export const projects: Project[] = [
       { time: 17.5, image: "/media/scenes/presidential-speech-contest-3.jpg", caption: "네온 라인 그래픽" },
       { time: 24.2, image: "/media/scenes/presidential-speech-contest-4.jpg", caption: "참여를 독려하는 원형 그래픽" },
     ],
+  },
+  {
+    id: "p06",
+    slug: "yata-ev6-owner-interview",
+    title: "EV6 오너 인터뷰",
+    summary: "EV6를 1년간 운행한 차주의 솔직한 후기를 담은 유튜브 인터뷰 콘텐츠",
+    category: "YouTube",
+    featured: false,
+    // year: TODO,
+    client: "YATA", // 유튜브 채널명. 클라이언트가 다르면 수정하세요.
+    // role: "TODO — 예: 촬영 · 편집 · 자막",
+    description:
+      "자동차 유튜브 채널 YATA에 업로드된 차주 인터뷰 영상입니다. EV6를 1년간 운행한 게스트가 실제로 타면서 느낀 장단점과 전기차 구매에 대한 솔직한 생각을 이야기합니다.", // TODO: 작업 내용에 맞게 다듬어 주세요.
+    thumbnail: "https://i.ytimg.com/vi/Lvc99mGFZfQ/maxresdefault.jpg",
+    videoUrl: "https://www.youtube.com/watch?v=Lvc99mGFZfQ",
+    tools: [],
+    outcomes: [],
+  },
+  {
+    id: "p07",
+    slug: "kmooc-communication-for-teens",
+    title: "발달지연 청소년의 참 세상살이를 위한 의사소통4",
+    summary: "대구대학교 K-MOOC 강좌 소개 영상 (김화수 교수)",
+    category: "Education",
+    featured: false,
+    // year: TODO,
+    client: "대구대학교 K-MOOC",
+    // role: "TODO",
+    description:
+      "대구대학교 K-MOOC 온라인 강좌 '발달지연 청소년의 참 세상살이를 위한 의사소통4'(김화수 교수)의 강좌 소개 영상입니다.", // TODO: 작업 내용에 맞게 다듬어 주세요.
+    thumbnail: "https://i.ytimg.com/vi/PxKz6uvHkEg/maxresdefault.jpg",
+    videoUrl: "https://www.youtube.com/watch?v=PxKz6uvHkEg",
+    tools: [],
+    outcomes: [],
+  },
+  {
+    id: "p08",
+    slug: "kmooc-korean-society-and-administration",
+    title: "한국사회와 행정",
+    summary: "대구대학교 K-MOOC 강좌 소개 영상 (함요상 교수)",
+    category: "Education",
+    featured: false,
+    // year: TODO,
+    client: "대구대학교 K-MOOC",
+    // role: "TODO",
+    description:
+      "대구대학교 K-MOOC 온라인 강좌 '한국사회와 행정'(함요상 교수)의 강좌 소개 영상입니다.", // TODO: 작업 내용에 맞게 다듬어 주세요.
+    thumbnail: "https://i.ytimg.com/vi/BCqFtXD0l1c/maxresdefault.jpg",
+    videoUrl: "https://www.youtube.com/watch?v=BCqFtXD0l1c",
+    tools: [],
+    outcomes: [],
+  },
+  {
+    id: "p09",
+    slug: "kmooc-big-data-visualization-r",
+    title: "빅데이터 시각화 R",
+    summary: "대구대학교 K-MOOC 강좌 소개 영상 (윤상후 교수)",
+    category: "Education",
+    featured: false,
+    // year: TODO,
+    client: "대구대학교 K-MOOC",
+    // role: "TODO",
+    description:
+      "대구대학교 K-MOOC 온라인 강좌 '빅데이터 시각화 R'(윤상후 교수)의 강좌 소개 영상입니다.", // TODO: 작업 내용에 맞게 다듬어 주세요.
+    thumbnail: "https://i.ytimg.com/vi/9j57g4yXSgA/maxresdefault.jpg",
+    videoUrl: "https://www.youtube.com/watch?v=9j57g4yXSgA",
+    tools: [],
+    outcomes: [],
   },
 ];
 
