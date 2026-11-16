@@ -33,8 +33,8 @@ export const expertise: ExpertiseItem[] = [
   {
     key: "ai",
     title: "AI-Powered Content",
-    description: "생성형 이미지·영상·음성 도구를 제작 파이프라인에 결합해 표현의 폭을 넓힙니다.",
-    tags: ["생성형 영상", "보이스", "업스케일"],
+    description: "생성형 AI와 Claude 같은 AI 에이전트를 제작 파이프라인에 결합해 3D 장면과 인터랙티브 콘텐츠까지 표현의 폭을 넓힙니다.",
+    tags: ["생성형 영상", "AI 협업 개발", "인터랙티브"],
   },
   {
     key: "automation",
