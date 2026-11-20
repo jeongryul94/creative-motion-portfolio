@@ -29,6 +29,36 @@ export type TeamProject = {
   resultNote?: string;
   stack: string[];
   gallery?: { src: string; caption: string }[];
+
+  /* ── 상세 보강 필드 (비워 두면 해당 섹션이 숨겨집니다) ── */
+  /** 시스템 구조도 + 설명 */
+  architecture?: { image: string; caption: string; points: string[] };
+  /** 핵심 설계 깊이 보기 (표 · 그림 포함 가능) */
+  deepDives?: {
+    title: string;
+    body: string;
+    table?: { cols: string[]; rows: string[][] };
+    image?: { src: string; caption: string };
+  }[];
+  /** 자동화 시스템 실행 화면 — 캡처 + 설명 */
+  automation?: {
+    intro: string;
+    steps: { tag: string; title: string; body: string; image?: string; portrait?: boolean }[];
+  };
+  /** 트러블슈팅 */
+  troubleshooting?: { title: string; cause: string; fix: string; result: string }[];
+  /** 본인이 직접 한 작업 vs 협업 — 제출 기준에 맞춰 구분 */
+  ownership?: { mine: string[]; team: { who: string; what: string }[]; note?: string };
+  /** 자동 시험 등 검증 내역 */
+  tests?: { step: string; check: string; result: string }[];
+  /** 진행 현황 타임라인 */
+  milestones?: { date: string; title: string; body: string; done: boolean }[];
+  /** 한계와 다음 단계 */
+  limits?: { now: string[]; next: { title: string; body: string }[] };
+  /** 자료 · 링크 (PDF, 영상, 사이트) */
+  resources?: { kind: "pdf" | "video" | "link"; label: string; href: string; note?: string }[];
+  /** 보안 · 개인정보 처리 안내 */
+  privacyNote?: string;
 };
 
 const m = (slug: string, file: string) => `/media/projects/${slug}/${file}`;
@@ -93,15 +123,15 @@ export const teamProjects: TeamProject[] = [
   },
   {
     slug: "smart-attendance-ai",
-    stage: "창업 도전 · 모두의 창업 2기 2라운드",
+    stage: "창업 도전 · 모두의 창업 2기 1라운드 진출",
     title: "스마트출결AI",
     subtitle: "결석해도, 뒤처지지 않게",
     summary:
       "1차 프로젝트에서 찾은 문제를 창업 아이템으로 발전시켜, 국비 훈련기관을 위한 출결 · 서류 · 학습 보강 통합 플랫폼을 사업화 관점으로 설계했습니다.",
     period: "2026.09 – 진행 중",
     team: "창업 아이디어",
-    partner: "모두의 창업 2기 · 1라운드 진출, 2라운드 진행 중",
-    role: "사업 기획 · 피치 데모 페이지 · 보강 영상 모션 제작",
+    partner: "모두의 창업 2기 · 1라운드 진출, 2라운드 평가 준비 중",
+    role: "사업 기획 · AI 사업계획서 프롬프트 설계 · 피치 데모 페이지 · 보강 영상 모션 제작",
     thumbnail: m("smart-attendance-ai", "poster.jpg"),
     video: {
       src: m("smart-attendance-ai", "video.mp4"),
@@ -135,7 +165,7 @@ export const teamProjects: TeamProject[] = [
       "HTML · CSS 키프레임으로 보강 영상 샘플을 만들고 Playwright · FFmpeg로 렌더링했습니다.",
     ],
     results: [
-      { value: "1R 진출", label: "모두의 창업 2기 · 현재 2라운드 진행 중" },
+      { value: "1R 진출", label: "모두의 창업 2기 · 2라운드 평가 준비 중" },
       { value: "4개", label: "핵심 기능을 하나의 흐름으로 통합" },
       { value: "10 → 100", label: "3년 내 도입 기관 수 목표" },
     ],
@@ -147,6 +177,82 @@ export const teamProjects: TeamProject[] = [
       { src: m("smart-attendance-ai", "vicious_cycle_diagram.jpg"), caption: "결석 → 중도포기 악순환" },
       { src: m("smart-attendance-ai", "fraud_types_diagram.jpg"), caption: "3대 부정훈련 사각지대" },
       { src: m("smart-attendance-ai", "comparison_table.jpg"), caption: "기존 대체재와 비교" },
+      { src: m("smart-attendance-ai", "infographic_incentive.jpg"), caption: "훈련장려금 · 출결 구조" },
+    ],
+    deepDives: [
+      {
+        title: "누가 무엇 때문에 힘든가",
+        body: "담임매니저 한 명이 출결 확인, 공결 서류 검토, 훈련장려금 문의를 서로 다른 시스템에서 처리합니다. 반복 문의는 챗봇이, 서류 판단은 대시보드가, 부정 의심은 교차 검증이 맡도록 업무를 나눴습니다.",
+        table: {
+          cols: ["업무", "지금", "스마트출결AI"],
+          rows: [
+            ["반복 문의", "전화 · 메신저로 같은 질문에 반복 응대", "24시간 챗봇이 1차 응대, 어려운 건만 매니저 연결"],
+            ["공결 서류", "메일 · 종이로 받아 눈으로 확인", "대시보드에서 서류와 출결을 나란히 보고 승인 · 반려"],
+            ["부정 출결", "대리출석 등 사각지대가 남음", "얼굴인증 · 비콘 기록을 교차 비교해 이상 징후 표시"],
+            ["결석 후", "놓친 진도를 훈련생 혼자 따라잡아야 함", "해당 강의를 요약한 보강 영상 · 문서 제공"],
+          ],
+        },
+      },
+      {
+        title: "돈을 버는 방식",
+        body: "훈련기관이 훈련생 규모에 맞춰 월 구독료를 내는 SaaS 모델로 설계했습니다. 금액은 초기 가정치이며 2라운드 활동에서 기관 인터뷰로 검증할 항목입니다.",
+        table: {
+          cols: ["요금제", "대상", "월 구독료(가정)"],
+          rows: [
+            ["Basic", "중소형 훈련기관", "29만 원~"],
+            ["Pro", "다반 운영 기관", "59만 원~"],
+            ["Enterprise", "대형 · 다지점 기관", "150만 원~"],
+          ],
+        },
+      },
+    ],
+    automation: {
+      intro:
+        "혼자서 사업계획서와 피치 자료를 빠르게 반복해 다듬기 위해 두 가지 작업 흐름을 직접 만들었습니다. 하나는 AI가 공모 양식에 맞춰 사업계획서를 한 목차씩 써 주는 프롬프트이고, 다른 하나는 코드로 그린 보강 영상을 자동으로 렌더링하는 흐름입니다.",
+      steps: [
+        {
+          tag: "AI · 01",
+          title: "사업계획서 자동생성 프롬프트 (v2)",
+          body: "AI에게 정부지원사업 심사위원 겸 창업 컨설턴트 역할을 주고, 모두의 창업 2기 양식의 목차별 작성 의도와 가이드를 넣었습니다. 아이디어 메모를 주면 공모 양식에 맞는 초안을 만듭니다.",
+          image: m("smart-attendance-ai", "prompt-p1.jpg"),
+          portrait: true,
+        },
+        {
+          tag: "AI · 02",
+          title: "한 번에 목차 하나, 사람이 확인하고 다음으로",
+          body: "한 번에 전부 쓰게 하면 검토가 안 되어서 '목차 1개 생성 → 수정 요청 또는 다음' 흐름을 규칙으로 정했습니다. 100자 항목은 80~100자, 2,000자 항목은 1,500~1,900자로 글자 수를 지키고, 사진 첨부 칸에는 넣을 도표 목록까지 제안하게 했습니다.",
+          image: m("smart-attendance-ai", "prompt-p2.jpg"),
+          portrait: true,
+        },
+        {
+          tag: "MOTION · 03",
+          title: "보강 영상 자동 렌더링",
+          body: "보강 콘텐츠 샘플은 HTML · CSS 키프레임으로 좌표와 타이밍을 지정해 그리고, Playwright로 브라우저 화면을 프레임 단위로 녹화한 뒤 FFmpeg로 MP4를 만듭니다. 문구만 바꿔 다시 돌리면 같은 품질의 영상이 나옵니다.",
+        },
+      ],
+    },
+    milestones: [
+      { date: "2026.09", title: "1차 프로젝트에서 문제 발견", body: "중도탈락 분석 중 출결 · 서류 업무의 비효율을 확인", done: true },
+      { date: "2026.09", title: "모두의 창업 2기 지원", body: "AI 프롬프트로 사업계획서 초안을 만들고 다듬어 제출", done: true },
+      { date: "2026.10", title: "1라운드 진출", body: "1라운드 진출자 지원 프로그램 시작", done: true },
+      { date: "~ 2026.12.01", title: "1R 활동보고서 · 사업계획서 제출", body: "활동 결과를 반영한 사업계획서로 2라운드 평가 준비", done: false },
+    ],
+    ownership: {
+      mine: [
+        "창업 아이템의 문제 정의, 기능 구성, 비즈니스 모델 정리",
+        "사업계획서 자동생성 AI 프롬프트(v2) 설계와 사업계획서 작성",
+        "투자자 · 심사위원용 피치 데모 페이지 제작",
+        "보강 영상 모션 샘플 제작 (HTML/CSS → Playwright → FFmpeg)",
+      ],
+      team: [
+        { who: "1차 프로젝트 팀 (5직 직진)", what: "출발점이 된 중도탈락 문제 정의, 직원 설문 데이터, 페르소나 조사" },
+      ],
+      note: "모두의 창업은 개인 명의로 지원한 과제이며, 1차 팀 프로젝트에서 함께 찾은 문제를 사업 아이템으로 발전시켰습니다.",
+    },
+    resources: [
+      { kind: "pdf", label: "사업계획서 자동생성 프롬프트 v2", href: m("smart-attendance-ai", "business-plan-prompt-v2.pdf"), note: "PDF · 6쪽" },
+      { kind: "video", label: "결석 보강 콘텐츠 모션 샘플", href: m("smart-attendance-ai", "video.mp4"), note: "MP4" },
+      { kind: "link", label: "1차 프로젝트: 스인개를 지켜라", href: "/projects/smhrd-dropout-guard", note: "문제를 처음 발견한 프로젝트" },
     ],
   },
   {
@@ -205,6 +311,159 @@ export const teamProjects: TeamProject[] = [
     ],
     resultNote: "시연용 가상 데이터와 로컬 시험 환경 기준이며, 실제 현장 사진 · ERP 연동은 다음 단계 과제입니다.",
     stack: ["n8n", "LangChain", "Supabase · PostgreSQL", "pgvector RAG", "OpenAI 멀티모달", "Docker", "Netlify"],
+    architecture: {
+      image: m("in2us-inventory-check", "arch.jpg"),
+      caption: "화면 3개 · n8n 워크플로 9개 · 서비스 6개",
+      points: [
+        "현장 · 관리자 · 발주 화면은 n8n Webhook만 부릅니다. Supabase나 OpenAI를 직접 부르지 않습니다.",
+        "n8n이 업로드 · 판독 · 검토 · 발주 · RAG · 챗봇 · 브리핑 · 오류 알림을 9개 워크플로로 나눠 처리합니다.",
+        "DB · 사진 저장소 · 벡터 · OpenAI · 텔레그램 · 디스코드 키는 n8n Credential 안에만 있습니다.",
+      ],
+    },
+    deepDives: [
+      {
+        title: "DB 설계 — 실사표 한 장을 재고 위치 한 줄씩으로 쪼갠다",
+        body: "제가 맡은 부분입니다. 테이블 8개 · 뷰 2개 · 업무 함수 12개로 설계했습니다. 재고는 저장하지 않고 '가장 최근에 승인된 실사'에서 매번 계산하는 뷰(v_stock_lots)로 만들어, 승인을 철회하면 이전 값으로 저절로 돌아갑니다.",
+        image: { src: m("in2us-inventory-check", "erd.jpg"), caption: "테이블 관계도 · count_lines가 실사표와 재고 위치를 잇는다" },
+      },
+      {
+        title: "수량 규칙 parse_qty — 숫자는 AI가 아니라 DB가 지킨다",
+        body: "AI는 적힌 글자를 그대로(qty_text) 넘기고, 숫자로 바꾸는 일과 규칙 검사는 DB 함수 parse_qty가 합니다. 화면에서 고친 값이든 챗봇이 넣은 값이든 같은 규칙을 통과해야 하고, 오류 줄이 하나라도 남아 있으면 DB가 승인을 거부합니다.",
+        table: {
+          cols: ["규칙", "내용", "통과", "거부"],
+          rows: [
+            ["쉼표", "천 단위 구분일 때만 허용", "1,200 → 1200", "1,2 · 1200,5"],
+            ["소수", "품목별 소수 자릿수 이하 (EA 0자리, kg · L 1자리)", "kg 12.50 → 12.5", "kg 12.55 · EA 12.5"],
+            ["글자", "숫자 외 글자 · 띄어쓰기 거부, 전각 · 앞자리 0 정리", "１２０ → 120", "12개 · 3 4"],
+            ["빈칸", "빈칸은 '세지 않음', 0은 0으로 적기", "- · 없음 → 0", "(빈칸)"],
+            ["최대값", "정수 7자리, 품목별 qty_max 초과 거부", "EA 4,800 → 4800", "EA 123456"],
+          ],
+        },
+      },
+      {
+        title: "AI는 제안, 결정은 사람 — 승인 · 반려 · 철회",
+        body: "판독 결과는 무조건 '대기(pending)'로 들어가고 관리자가 승인해야만 재고가 바뀝니다. 반려와 철회는 사유가 필수이고, 승인 · 반려 · 철회 · 수정 · 발주는 누가 언제 했는지 감사 로그(audit_logs)에 자동으로 남습니다. AI가 처음 읽은 값(ai_qty)도 따로 보존합니다.",
+      },
+    ],
+    automation: {
+      intro:
+        "실제로 실행한 n8n 화면입니다. 실사표 사진 한 장이 업로드되면 n8n이 사진 저장 → 기준목록 조회 → AI 판독 → DB 규칙 검사 → 알림까지 자동으로 처리하고, 관리자는 규칙에 걸린 줄만 확인해 승인합니다.",
+      steps: [
+        {
+          tag: "INPUT",
+          title: "현장 실사표 (테스트용 합성 사진)",
+          body: "손글씨 수량 15줄을 적은 원자재 실사표 예시입니다. WH-0005는 57에 줄을 긋고 62로 고쳐 썼습니다. 실제 현장 사진이 아닌 시연용 가상 데이터입니다.",
+          image: m("in2us-inventory-check", "sheet-sample.jpg"),
+        },
+        {
+          tag: "n8n · 전체",
+          title: "워크플로 9개 (조회 · 업로드 · 검토 · 발주 · RAG · AI 매니저 · 브리핑 · 오류 알림)",
+          body: "역할별로 워크플로를 나눠 한 곳이 실패해도 다른 기능에 영향이 없게 했습니다. 팀원 PC마다 같은 결과가 나오도록 가져오기용 JSON 9개로 통일했습니다.",
+          image: m("in2us-inventory-check", "n8n-overview.jpg"),
+        },
+        {
+          tag: "n8n · WF-02",
+          title: "실사표 업로드 · AI 판독 — 시스템의 심장",
+          body: "Webhook → 사진 준비 → 저장소 업로드 → 기준목록 조회 → AI 요청 → 결과 정리 → DB 저장 → 응답. 응답 정리 뒤에서 선을 두 갈래로 나눠 화면 응답이 알림을 기다리지 않게 했습니다.",
+          image: m("in2us-inventory-check", "n8n-wf02.jpg"),
+        },
+        {
+          tag: "n8n · 실행 기록",
+          title: "모든 노드 성공, 기준목록 150개가 함께 흘러감",
+          body: "Executions 탭에서 노드마다 초록 체크와 지나간 아이템 수를 확인할 수 있습니다. 업로드부터 응답까지 한 번의 실행으로 끝납니다.",
+          image: m("in2us-inventory-check", "n8n-executions.jpg"),
+        },
+        {
+          tag: "n8n → DB",
+          title: "AI가 본 글자 → DB 규칙 검사 결과",
+          body: "왼쪽은 AI가 본 그대로의 글자(\"1,250\", \"34,5\"), 오른쪽은 제가 만든 DB 함수가 돌려준 결과입니다. 17줄 중 3줄을 규칙 위반으로 잡아 사유를 한국어로 남겼습니다. (텔레그램 ID는 가렸습니다)",
+          image: m("in2us-inventory-check", "n8n-dbsave.jpg"),
+        },
+        {
+          tag: "SCREEN · 현장",
+          title: "현장 담당자 화면 — 업로드 직후 결과",
+          body: "구분을 고르고 사진을 올리면 접수 줄 수, 규칙 오류 줄 수, 확인할 점이 바로 표시됩니다.",
+          image: m("in2us-inventory-check", "screen-worker.jpg"),
+          portrait: true,
+        },
+        {
+          tag: "SCREEN · 관리자",
+          title: "재고 관리자 화면 — 빨간 줄만 고치고 승인",
+          body: "원본 사진과 판독 결과를 나란히 봅니다. 빨간 줄은 규칙 위반, 노란 줄은 AI 신뢰도 80% 미만입니다. 고친 값도 DB 규칙을 다시 통과해야 승인됩니다.",
+          image: m("in2us-inventory-check", "screen-admin.jpg"),
+        },
+        {
+          tag: "ALERT",
+          title: "텔레그램 · 디스코드 자동 알림",
+          body: "승인 · 반려 결과와 반려 사유가 현장 담당자 휴대폰으로, 새 실사표 · 발주 요청 · 아침 브리핑은 관리자 디스코드 채널로 갑니다. 관리자가 전화로 다시 확인할 필요가 없습니다.",
+          image: m("in2us-inventory-check", "alert-discord.jpg"),
+        },
+        {
+          tag: "n8n · WF-07",
+          title: "AI 재고 매니저 '한결' — LangChain 에이전트",
+          body: "재고 검색 · 위치 · 발주 목록 · 발주 등록 · 현황 · 매뉴얼 도구 6개와 대화 기억(Postgres Chat Memory)을 붙였습니다. 답의 숫자는 도구로 조회한 값만 쓰고, 발주는 '요청' 상태로만 넣어 관리자 승인을 거칩니다.",
+          image: m("in2us-inventory-check", "n8n-wf07.jpg"),
+        },
+        {
+          tag: "SCREEN · 발주",
+          title: "발주 담당자 화면 + 한결",
+          body: "바뀐 재고로 바로 발주하고, 말로 묻고 말로 요청합니다. 운영 매뉴얼은 RAG(pgvector)로 찾아 그대로 인용합니다.",
+          image: m("in2us-inventory-check", "screen-buyer.jpg"),
+        },
+      ],
+    },
+    troubleshooting: [
+      { title: "AI가 \"1,2\" · \"34,5\"를 마음대로 숫자로 바꿈", cause: "숫자 해석을 AI에 맡기면 12인지 1.2인지 바뀌어도 알 수 없음", fix: "적힌 글자 그대로(qty_text) 받고, 변환 · 검사는 DB 함수 parse_qty가 담당", result: "관리자 화면 '적힌 글자' 열로 원본 확인" },
+      { title: "DB 규칙 위반 시 화면엔 '서버 오류'만 보임", cause: "Supabase가 400을 주면 n8n HTTP 노드가 멈춰 친절한 문구가 사라짐", fix: "Never Error + 공통 '응답 정리' 노드로 {ok:false, message}를 한국어 그대로 전달", result: "\"쉼표는 천 단위 구분에만…\"이 화면 토스트로 표시" },
+      { title: "service_role 키가 화면 코드에 들어갈 뻔함", cause: "화면에서 Supabase를 직접 부르면 키가 그대로 노출", fix: "화면은 n8n만 호출, 모든 테이블 RLS + anon의 함수 실행 권한 회수", result: "anon으로 직접 호출 시 permission denied 확인" },
+      { title: "AI 응답에 설명 문장이 섞여 JSON 파싱 실패", cause: "자유 형식 응답은 칸 이름 · 모양이 매번 달라짐", fix: "Structured Outputs(json_schema, strict) 적용", result: "정해진 JSON 모양 외 응답 차단" },
+      { title: "업로드 응답이 디스코드 알림을 기다리며 늦어짐", cause: "응답 노드가 알림 노드 뒤에 직렬로 연결됨", fix: "응답 먼저 보내고, 알림은 별도 갈래 + On Error Continue", result: "알림이 실패해도 업로드는 성공으로 남음" },
+      { title: "챗봇이 \"박관리 이름으로 발주해\"를 그대로 처리", cause: "AI가 발주자와 발주 시점을 정할 수 있었음", fix: "발주자를 로그인 정보로 고정, 동의한 다음 턴에만 발주 등록, DB가 역할을 다시 검사", result: "챗봇 발주도 '요청' 상태, 관리자 승인 필수" },
+    ],
+    tests: [
+      { step: "승인 시도 (수정 전)", check: "빨간 줄 3개가 남은 채 승인 → 400 \"먼저 고쳐 주세요\"", result: "PASS" },
+      { step: "수정값 재검사", check: "'1,2'로 고침 → 400 쉼표 규칙 / 34.5 · 12 · 12로 고침 → 200", result: "PASS" },
+      { step: "중복 승인 · 권한", check: "이미 승인된 실사표 재승인 거부, 발주 담당자의 발주 승인 거부", result: "PASS" },
+      { step: "발주 수량 규칙", check: "셀 캔(EA) 10.5개 발주 → \"소수 0자리까지만\"", result: "PASS" },
+      { step: "철회 후 재고", check: "승인 철회 → LFP 양극 활물질 340 kg → 0 (이전 값 복구)", result: "PASS" },
+    ],
+    ownership: {
+      mine: [
+        "Supabase(PostgreSQL) 스키마 설계 — 테이블 8 · 뷰 2 · 업무 함수 12, 창고 · 위치 · 품목 시드 데이터",
+        "수량 해석 규칙 parse_qty — 쉼표 · 자릿수 · 소수 · 빈칸 · 최대값 검사와 한국어 거절 사유",
+        "실사 검토 · 승인 · 반려 · 철회(review_sheet), 발주 요청 · 승인 DB 함수 구현",
+        "재고 계산 뷰(v_stock_lots)와 감사 로그 자동 기록, RLS · 함수 권한 회수로 직접 접근 차단",
+        "n8n 워크플로가 부르는 DB 함수(RPC)의 입출력 규격을 맞추고 자동 시험으로 검증",
+      ],
+      team: [
+        { who: "PM", what: "일정 · 회의록, 승인 규칙 · 상태 흐름 설계, 최종 PPT 총괄" },
+        { who: "AI 엔지니어 A", what: "n8n 워크플로 9개 구축, 텔레그램 · 디스코드 연동, 오류 알림" },
+        { who: "AI 엔지니어 B", what: "판독 모델 비교 · 전환, 이미지 전처리, 자동 시험 · 성능 측정" },
+        { who: "프론트엔드", what: "현장 · 관리자 · 발주 화면 3개, MOCK → 실연결, Netlify 배포" },
+        { who: "프롬프트 엔지니어", what: "판독 프롬프트, AI 매니저 한결 페르소나 · 도구 설명, 품질 시험" },
+      ],
+      note: "6명 팀 프로젝트입니다. 팀원 이름은 개인정보 보호를 위해 역할로만 표기했습니다.",
+    },
+    limits: {
+      now: [
+        "실제 세방전지 SCM/ERP 연동은 미검증 — Supabase 가상 ERP로 검증",
+        "시연 데이터는 가상 데이터 (위치 330 · 품목 150)",
+        "실제 OpenAI 판독 정확도는 손글씨 시험셋으로 추가 측정 필요",
+        "외부 클라우드 AI 사용 — 사내 보안 정책상 온프레미스 모델 검토 필요",
+      ],
+      next: [
+        { title: "손글씨 시험셋 실측", body: "오염 · 구김 · 필기체별 칸 정확도와 AI 일치율 측정" },
+        { title: "실제 SCM 파일 연동", body: "승인 결과를 CSV/Excel로 내보내 기존 시스템에 반영" },
+        { title: "누락 원인 분석", body: "구역 · 품목별 리더기 누락을 쌓아 라벨 교체 우선순위 제시" },
+        { title: "알림톡 · 사내 모델", body: "카카오 알림톡 확장, 온프레미스 VL 모델 비교" },
+      ],
+    },
+    resources: [
+      { kind: "pdf", label: "IN2US 최종 발표자료", href: m("in2us-inventory-check", "IN2US_final_presentation.pdf"), note: "PDF · 26쪽 · 팀원 이름 가림" },
+      { kind: "video", label: "시연 영상 · 숫자의 이동", href: m("in2us-inventory-check", "video.mp4"), note: "MP4 · 약 2분" },
+    ],
+    privacyNote:
+      "기업 연계 프로젝트라 실제 재고 · 거래 정보는 쓰지 않았고, 화면의 품목 · 수량 · 계정(김현장, 박관리 등)은 모두 시연용 가상 데이터입니다. 캡처 속 메신저 ID와 발표자료의 팀원 이름은 가렸습니다.",
   },
 ];
 
