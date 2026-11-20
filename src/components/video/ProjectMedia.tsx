@@ -113,7 +113,7 @@ export function ProjectMedia({ title, videoUrl, poster, scenes, children }: Prop
                       sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                    <span className="absolute left-2 top-2 rounded-sm bg-ink/70 px-1.5 py-0.5 font-mono text-[10px] tabular-nums text-fg/90 backdrop-blur">
+                    <span className="absolute left-2 top-2 rounded-sm bg-black/65 px-1.5 py-0.5 text-[11px] tabular-nums text-white">
                       {formatTimecode(s.time)}
                     </span>
                     <span className="absolute inset-0 grid place-items-center bg-ink/40 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">

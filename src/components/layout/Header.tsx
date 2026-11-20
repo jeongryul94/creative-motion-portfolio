@@ -55,17 +55,15 @@ export function Header() {
       className={[
         "fixed inset-x-0 top-0 z-50 transition-[transform,background-color,border-color] duration-500 ease-out",
         hidden && !open ? "-translate-y-full" : "translate-y-0",
-        solid ? "border-b border-line/80 bg-ink/75 backdrop-blur-xl" : "border-b border-transparent",
+        solid ? "border-b border-line/80 bg-ink/85 text-fg backdrop-blur-xl" : "border-b border-transparent",
+        // 홈 첫 화면은 영상 위라서 흰 글씨
+        !solid && pathname === "/" ? "text-white" : "text-fg",
       ].join(" ")}
     >
       <div className="container-x flex h-16 items-center justify-between md:h-[4.5rem]">
-        <Link href="/" className="group flex items-center gap-2.5" aria-label={`${site.name} 홈`}>
-          <span className="relative grid size-7 place-items-center rounded-full bg-lime text-ink">
-            <span className="ml-0.5 block size-0 border-y-[5px] border-l-[8px] border-y-transparent border-l-ink" />
-          </span>
-          <span className="font-mono text-xs tracking-[0.18em] uppercase">
-            Creative<span className="text-muted"> / </span>Motion
-          </span>
+        <Link href="/" className="flex items-baseline gap-2" aria-label={`${site.name} 홈`}>
+          <span className="text-lg font-extrabold tracking-[-0.04em]">정률</span>
+          <span className="hidden text-sm text-current opacity-60 sm:inline">영상 · 모션 · 자동화</span>
         </Link>
 
         <nav aria-label="주 메뉴" className="hidden md:block">
@@ -74,7 +72,7 @@ export function Header() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="group relative py-2 text-sm text-fg/80 transition-colors hover:text-fg"
+                  className="group relative py-2 text-[15px] opacity-80 transition-opacity hover:opacity-100"
                 >
                   {item.label}
                   <span className="absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-lime transition-transform duration-500 ease-out group-hover:scale-x-100" />
@@ -84,9 +82,9 @@ export function Header() {
             <li>
               <Link
                 href="/#contact"
-                className="rounded-full bg-fg px-4 py-2 text-sm font-medium text-ink transition-colors hover:bg-lime"
+                className="rounded-full bg-lime px-4 py-2 text-sm font-semibold text-ink transition-opacity hover:opacity-85"
               >
-                Let&apos;s talk
+                연락하기
               </Link>
             </li>
           </ul>
@@ -127,15 +125,14 @@ export function Header() {
                   <Link
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    className="display flex items-baseline justify-between border-b border-line py-4 text-5xl"
+                    className="display flex items-baseline justify-between border-b border-line py-4 text-4xl"
                   >
                     {item.label}
-                    <span className="font-mono text-xs text-muted">0{i + 1}</span>
                   </Link>
                 </motion.li>
               ))}
             </ul>
-            <p className="container-x mt-10 font-mono text-xs text-muted">{site.contact.email}</p>
+            <p className="container-x mt-10 text-sm text-muted">{site.contact.email}</p>
           </motion.nav>
         )}
       </AnimatePresence>

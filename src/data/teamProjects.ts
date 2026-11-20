@@ -213,21 +213,21 @@ export const teamProjects: TeamProject[] = [
         "혼자서 사업계획서와 피치 자료를 빠르게 반복해 다듬기 위해 두 가지 작업 흐름을 직접 만들었습니다. 하나는 AI가 공모 양식에 맞춰 사업계획서를 한 목차씩 써 주는 프롬프트이고, 다른 하나는 코드로 그린 보강 영상을 자동으로 렌더링하는 흐름입니다.",
       steps: [
         {
-          tag: "AI · 01",
+          tag: "AI 프롬프트",
           title: "사업계획서 자동생성 프롬프트 (v2)",
           body: "AI에게 정부지원사업 심사위원 겸 창업 컨설턴트 역할을 주고, 모두의 창업 2기 양식의 목차별 작성 의도와 가이드를 넣었습니다. 아이디어 메모를 주면 공모 양식에 맞는 초안을 만듭니다.",
           image: m("smart-attendance-ai", "prompt-p1.jpg"),
           portrait: true,
         },
         {
-          tag: "AI · 02",
+          tag: "AI 프롬프트",
           title: "한 번에 목차 하나, 사람이 확인하고 다음으로",
           body: "한 번에 전부 쓰게 하면 검토가 안 되어서 '목차 1개 생성 → 수정 요청 또는 다음' 흐름을 규칙으로 정했습니다. 100자 항목은 80~100자, 2,000자 항목은 1,500~1,900자로 글자 수를 지키고, 사진 첨부 칸에는 넣을 도표 목록까지 제안하게 했습니다.",
           image: m("smart-attendance-ai", "prompt-p2.jpg"),
           portrait: true,
         },
         {
-          tag: "MOTION · 03",
+          tag: "모션 렌더링",
           title: "보강 영상 자동 렌더링",
           body: "보강 콘텐츠 샘플은 HTML · CSS 키프레임으로 좌표와 타이밍을 지정해 그리고, Playwright로 브라우저 화면을 프레임 단위로 녹화한 뒤 FFmpeg로 MP4를 만듭니다. 문구만 바꿔 다시 돌리면 같은 품질의 영상이 나옵니다.",
         },
@@ -252,11 +252,11 @@ export const teamProjects: TeamProject[] = [
       note: "모두의 창업은 개인 명의로 지원한 과제이며, 1차 팀 프로젝트에서 함께 찾은 문제를 사업 아이템으로 발전시켰습니다.",
     },
     slides: [1, 2, 3, 4, 5, 6].map((i) => ({
-      src: m("smart-attendance-ai", `pitch-${i}.jpg`),
+      src: m("smart-attendance-ai", `pitch-v2-${i}.jpg`),
       caption: ["표지", "문제", "해결 흐름", "Before / After", "비즈니스 모델 · 로드맵", "진행 현황 · 다음 단계"][i - 1],
     })),
     resources: [
-      { kind: "pdf", label: "사업 요약 피치 슬라이드", href: m("smart-attendance-ai", "smart-attendance-pitch-summary.pdf"), note: "PDF · 6장" },
+      { kind: "pdf", label: "사업 요약 피치 슬라이드", href: m("smart-attendance-ai", "smart-attendance-pitch-summary-v2.pdf"), note: "PDF · 6장" },
       { kind: "pdf", label: "사업계획서 자동생성 프롬프트 v2", href: m("smart-attendance-ai", "business-plan-prompt-v2.pdf"), note: "PDF · 6쪽" },
       { kind: "video", label: "결석 보강 콘텐츠 모션 샘플", href: m("smart-attendance-ai", "video.mp4"), note: "MP4" },
       { kind: "link", label: "1차 프로젝트: 훈련생 중도탈락 조기 감지", href: "/projects/smhrd-dropout-guard", note: "문제를 처음 발견한 프로젝트" },
@@ -357,13 +357,13 @@ export const teamProjects: TeamProject[] = [
         "실제로 실행한 n8n 화면입니다. 실사표 사진 한 장이 업로드되면 n8n이 사진 저장 → 기준목록 조회 → AI 판독 → DB 규칙 검사 → 알림까지 자동으로 처리하고, 관리자는 규칙에 걸린 줄만 확인해 승인합니다.",
       steps: [
         {
-          tag: "INPUT",
+          tag: "입력 자료",
           title: "현장 실사표 (테스트용 합성 사진)",
           body: "손글씨 수량 15줄을 적은 원자재 실사표 예시입니다. WH-0005는 57에 줄을 긋고 62로 고쳐 썼습니다. 실제 현장 사진이 아닌 시연용 가상 데이터입니다.",
           image: m("in2us-inventory-check", "sheet-sample.jpg"),
         },
         {
-          tag: "n8n · 전체",
+          tag: "n8n 워크플로",
           title: "워크플로 9개 (조회 · 업로드 · 검토 · 발주 · RAG · AI 매니저 · 브리핑 · 오류 알림)",
           body: "역할별로 워크플로를 나눠 한 곳이 실패해도 다른 기능에 영향이 없게 했습니다. 팀원 PC마다 같은 결과가 나오도록 가져오기용 JSON 9개로 통일했습니다.",
           image: m("in2us-inventory-check", "n8n-overview.jpg"),
@@ -375,7 +375,7 @@ export const teamProjects: TeamProject[] = [
           image: m("in2us-inventory-check", "n8n-wf02.jpg"),
         },
         {
-          tag: "n8n · 실행 기록",
+          tag: "n8n 실행 기록",
           title: "모든 노드 성공, 기준목록 150개가 함께 흘러감",
           body: "Executions 탭에서 노드마다 초록 체크와 지나간 아이템 수를 확인할 수 있습니다. 업로드부터 응답까지 한 번의 실행으로 끝납니다.",
           image: m("in2us-inventory-check", "n8n-executions.jpg"),
@@ -387,20 +387,20 @@ export const teamProjects: TeamProject[] = [
           image: m("in2us-inventory-check", "n8n-dbsave.jpg"),
         },
         {
-          tag: "SCREEN · 현장",
+          tag: "화면 · 현장 담당자",
           title: "현장 담당자 화면 — 업로드 직후 결과",
           body: "구분을 고르고 사진을 올리면 접수 줄 수, 규칙 오류 줄 수, 확인할 점이 바로 표시됩니다.",
           image: m("in2us-inventory-check", "screen-worker.jpg"),
           portrait: true,
         },
         {
-          tag: "SCREEN · 관리자",
+          tag: "화면 · 재고 관리자",
           title: "재고 관리자 화면 — 빨간 줄만 고치고 승인",
           body: "원본 사진과 판독 결과를 나란히 봅니다. 빨간 줄은 규칙 위반, 노란 줄은 AI 신뢰도 80% 미만입니다. 고친 값도 DB 규칙을 다시 통과해야 승인됩니다.",
           image: m("in2us-inventory-check", "screen-admin.jpg"),
         },
         {
-          tag: "ALERT",
+          tag: "알림",
           title: "텔레그램 · 디스코드 자동 알림",
           body: "승인 · 반려 결과와 반려 사유가 현장 담당자 휴대폰으로, 새 실사표 · 발주 요청 · 아침 브리핑은 관리자 디스코드 채널로 갑니다. 관리자가 전화로 다시 확인할 필요가 없습니다.",
           image: m("in2us-inventory-check", "alert-discord.jpg"),
@@ -412,7 +412,7 @@ export const teamProjects: TeamProject[] = [
           image: m("in2us-inventory-check", "n8n-wf07.jpg"),
         },
         {
-          tag: "SCREEN · 발주",
+          tag: "화면 · 발주 담당자",
           title: "발주 담당자 화면 + 한결",
           body: "바뀐 재고로 바로 발주하고, 말로 묻고 말로 요청합니다. 운영 매뉴얼은 RAG(pgvector)로 찾아 그대로 인용합니다.",
           image: m("in2us-inventory-check", "screen-buyer.jpg"),

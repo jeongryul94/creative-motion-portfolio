@@ -13,29 +13,24 @@ export function Contact() {
   return (
     <section id="contact" aria-labelledby="contact-title" className="border-t border-line py-24 md:py-36">
       <div className="container-x">
-        <p className="eyebrow mb-4">(05) — Contact</p>
-        <h2 id="contact-title" className="display text-[clamp(3.2rem,11vw,11rem)]">
-          <RevealWords text="Have a project" />
-          <br />
-          <span className="text-lime">
-            <RevealWords text="in mind?" />
-          </span>
+        <h2 id="contact-title" className="display text-[clamp(2.4rem,6vw,5rem)]">
+          <RevealWords text="연락하기" />
         </h2>
 
         <div className="mt-14 grid gap-16 lg:mt-20 lg:grid-cols-12 lg:gap-10">
           <Reveal className="lg:col-span-5">
             <p className="max-w-md text-lg leading-relaxed text-fg/75">
-              기업 홍보영상, 광고, 유튜브·교육 콘텐츠, 모션그래픽, 3D·AI 영상 제작을 함께합니다. 아이디어 단계라도 편하게 연락 주세요.
+              영상 작업 문의든 채용 이야기든 다 좋아요. 메일이 제일 빠르고, 아래 양식으로 남겨 주셔도 확인하는 대로 답장드릴게요.
             </p>
 
             <div className="mt-10">
               <div className="flex flex-wrap items-center gap-3">
-                <p className="eyebrow">Email</p>
+                <p className="eyebrow">이메일</p>
                 {emailIsSample && <SampleBadge />}
               </div>
               <a
                 href={`mailto:${email}`}
-                className="group mt-3 inline-flex items-center gap-2 break-all text-2xl font-semibold tracking-tight transition-colors hover:text-lime md:text-3xl"
+                className="group mt-3 inline-flex items-center gap-2 break-all text-2xl font-bold tracking-[-0.02em] underline-offset-4 hover:underline md:text-3xl"
               >
                 {email}
                 <ArrowUpRight className="size-6 shrink-0 transition-transform group-hover:rotate-45" aria-hidden />
@@ -46,7 +41,7 @@ export function Contact() {
             </div>
 
             <div className="mt-10">
-              <p className="eyebrow mb-3">Channels</p>
+              <p className="eyebrow mb-3">채널</p>
               {activeLinks.length > 0 ? (
                 <ul className="flex flex-wrap gap-2">
                   {activeLinks.map((l) => {
@@ -67,7 +62,7 @@ export function Contact() {
                   })}
                 </ul>
               ) : (
-                <p className="text-sm text-muted">GitHub · YouTube · Instagram 링크는 환경변수로 추가하면 표시됩니다.</p>
+                <p className="text-sm text-muted">준비 중입니다.</p>
               )}
             </div>
           </Reveal>

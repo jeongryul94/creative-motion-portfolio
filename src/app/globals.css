@@ -2,18 +2,19 @@
 
 /* ── Design tokens ─────────────────────────────────────────── */
 @theme {
-  --color-ink: #090909;
-  --color-ink-2: #151515;
-  --color-ink-3: #1f1f1f;
-  --color-line: #262626;
-  --color-fg: #f5f5f5;
-  --color-muted: #999999;
-  --color-lime: #c8ff5f;
+  /* 종이 느낌의 밝은 배경 + 먹색 글씨 + 포인트 색 하나 */
+  --color-ink: #f4f1ea;
+  --color-ink-2: #ebe7dd;
+  --color-ink-3: #e0dbcd;
+  --color-line: #d5cfc1;
+  --color-fg: #1b1a17;
+  --color-muted: #6e695f;
+  --color-lime: #c8432a;
 
   --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
     "Noto Sans KR", system-ui, sans-serif;
-  --font-display: "Anton", "Pretendard Variable", Impact, "Arial Narrow", sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: "Pretendard Variable", Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif;
+  --font-mono: "Pretendard Variable", Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif;
 
   --breakpoint-wide: 90rem; /* 1440px */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -21,7 +22,7 @@
 
 @layer base {
   html {
-    color-scheme: dark;
+    color-scheme: light;
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
   }
@@ -67,18 +68,18 @@
     }
   }
   .eyebrow {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    font-size: 0.875rem;
+    font-weight: 500;
     color: var(--color-muted);
   }
   .display {
     font-family: var(--font-display);
-    font-weight: 400;
-    letter-spacing: -0.005em;
-    line-height: 0.92;
-    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    line-height: 1.04;
+  }
+  .font-mono {
+    font-variant-numeric: tabular-nums;
   }
   /* 필름 그레인 느낌의 미세한 노이즈 */
   .grain::after {

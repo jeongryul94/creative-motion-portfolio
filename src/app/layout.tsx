@@ -5,14 +5,11 @@ import { Footer } from "@/components/layout/Footer";
 import { site } from "@/data/site";
 // 폰트는 npm 패키지로 자체 호스팅합니다 (외부 CDN 요청 없음).
 import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
-import "@fontsource/anton/latin-400.css";
-import "@fontsource/jetbrains-mono/latin-400.css";
-import "@fontsource/jetbrains-mono/latin-500.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: { default: `${site.name} — Video & Motion`, template: `%s — ${site.name}` },
+  title: { default: `${site.name} · 영상 편집, 모션, AI 자동화`, template: `%s · ${site.name}` },
   description: site.description,
   openGraph: {
     type: "website",
@@ -26,7 +23,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#090909",
+  themeColor: "#f4f1ea",
   width: "device-width",
   initialScale: 1,
 };

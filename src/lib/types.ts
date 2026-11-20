@@ -1,6 +1,15 @@
 export const CATEGORIES = ["Commercial", "YouTube", "Education", "Motion", "AI & 3D"] as const;
 export type Category = (typeof CATEGORIES)[number];
 
+/** 화면에 보이는 한글 분류명 */
+export const CATEGORY_LABEL: Record<Category, string> = {
+  Commercial: "광고 · 기업",
+  YouTube: "유튜브",
+  Education: "교육",
+  Motion: "모션",
+  "AI & 3D": "AI · 3D",
+};
+
 export type Scene = {
   /** 영상 내 위치(초). MP4 영상이면 클릭 시 해당 지점으로 이동합니다. */
   time: number;

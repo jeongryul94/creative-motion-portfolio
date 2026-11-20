@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { getNextProject, getProject, projects } from "@/data/projects";
 import { formatDuration } from "@/lib/video";
+import { CATEGORY_LABEL } from "@/lib/types";
 import { ProjectMedia } from "@/components/video/ProjectMedia";
 import { Reveal } from "@/components/ui/Reveal";
 import { SampleBadge } from "@/components/ui/SampleBadge";
@@ -41,12 +42,12 @@ export default async function ProjectPage({ params }: Params) {
   const next = getNextProject(slug);
 
   const meta = [
-    { label: "Client", value: project.client },
-    { label: "Year", value: project.year?.toString() },
-    { label: "Period", value: project.period },
-    { label: "Category", value: project.category },
-    { label: "Role", value: project.role },
-    { label: "Running time", value: formatDuration(project.duration) },
+    { label: "클라이언트", value: project.client },
+    { label: "연도", value: project.year?.toString() },
+    { label: "기간", value: project.period },
+    { label: "분야", value: CATEGORY_LABEL[project.category] },
+    { label: "역할", value: project.role },
+    { label: "길이", value: formatDuration(project.duration) },
   ].filter((m): m is { label: string; value: string } => !!m.value);
 
   // 검색엔진용 구조화 데이터
@@ -66,7 +67,7 @@ export default async function ProjectPage({ params }: Params) {
 
       <div className="container-x">
         <Link href="/#work" className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-fg">
-          <ArrowLeft className="size-4" aria-hidden /> All works
+          <ArrowLeft className="size-4" aria-hidden /> 작업 목록
         </Link>
 
         {/* 1. 제목 및 소개 */}
@@ -74,7 +75,7 @@ export default async function ProjectPage({ params }: Params) {
           <div className="lg:col-span-8">
             <Reveal>
               <p className="eyebrow mb-5 flex flex-wrap items-center gap-3">
-                <span>{project.category}</span>
+                <span>{CATEGORY_LABEL[project.category]}</span>
                 {project.year && <span>· {project.year}</span>}
                 {project.isSample && <SampleBadge />}
               </p>
@@ -101,7 +102,7 @@ export default async function ProjectPage({ params }: Params) {
               ))}
               {project.tools.length > 0 && (
                 <div className="col-span-2 sm:col-span-3 lg:col-span-6">
-                  <dt className="eyebrow">Tools</dt>
+                  <dt className="eyebrow">사용한 툴</dt>
                   <dd className="mt-2 flex flex-wrap gap-2">
                     {project.tools.map((t) => (
                       <span key={t} className="rounded-full border border-line px-3 py-1 text-xs">
@@ -115,7 +116,7 @@ export default async function ProjectPage({ params }: Params) {
 
             {/* 5. 소개 · 기획 의도 */}
             <div className="mt-20 grid gap-10 md:mt-28 lg:grid-cols-12">
-              <h2 className="eyebrow lg:col-span-4">{project.brief ? "기획 의도 · 해결 과제" : "Overview"}</h2>
+              <h2 className="eyebrow lg:col-span-4">{project.brief ? "기획 의도" : "소개"}</h2>
               <div className="space-y-6 text-lg leading-relaxed text-fg/80 md:text-xl lg:col-span-8">
                 <Reveal>
                   <p>{project.description}</p>
@@ -135,8 +136,10 @@ export default async function ProjectPage({ params }: Params) {
                 <ol className="grid gap-px overflow-hidden rounded-sm bg-line sm:grid-cols-2 lg:col-span-8">
                   {project.process.map((step, i) => (
                     <Reveal as="li" key={step.title} delay={i * 0.06} className="bg-ink p-6 md:p-7">
-                      <span className="font-mono text-xs text-lime">STEP {String(i + 1).padStart(2, "0")}</span>
-                      <p className="mt-3 text-lg font-semibold">{step.title}</p>
+                      <p className="text-lg font-semibold">
+                        <span className="mr-2 text-lime">{i + 1}.</span>
+                        {step.title}
+                      </p>
                       <p className="mt-2 text-sm leading-relaxed text-muted">{step.body}</p>
                     </Reveal>
                   ))}
@@ -168,7 +171,7 @@ export default async function ProjectPage({ params }: Params) {
       <Link
         href={`/works/${next.slug}`}
         className="group relative mt-28 block overflow-hidden border-t border-line md:mt-40"
-        aria-label={`다음 프로젝트: ${next.title}`}
+        aria-label={`다음 작업: ${next.title}`}
       >
         <Image
           src={next.thumbnail}
@@ -179,7 +182,7 @@ export default async function ProjectPage({ params }: Params) {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/80 to-ink/30" />
         <div className="container-x relative flex min-h-[46vh] flex-col justify-center py-20">
-          <p className="eyebrow mb-4">Next project</p>
+          <p className="eyebrow mb-4">다음 작업</p>
           <p className="flex items-center gap-4 text-[clamp(2rem,6vw,5rem)] font-bold leading-tight tracking-[-0.03em]">
             {next.title}
             <ArrowUpRight

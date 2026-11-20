@@ -3,7 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { CATEGORIES, type Category, type Project } from "@/lib/types";
+import { CATEGORIES, CATEGORY_LABEL, type Category, type Project } from "@/lib/types";
 import { ProjectCard } from "@/components/works/ProjectCard";
 import { RevealWords } from "@/components/ui/Reveal";
 
@@ -45,10 +45,12 @@ export function SelectedWorks({ projects }: { projects: Project[] }) {
     <section ref={sectionRef} id="work" aria-labelledby="work-title" className="container-x py-24 md:py-36">
       <div className="mb-10 flex flex-col gap-8 md:mb-16">
         <div>
-          <p className="eyebrow mb-4">(01) — Selected Works</p>
-          <h2 id="work-title" className="display text-[clamp(3rem,9vw,8rem)]">
-            <RevealWords text="Selected Works" />
+          <h2 id="work-title" className="display text-[clamp(2.4rem,6vw,5rem)]">
+            <RevealWords text="작업" />
           </h2>
+          <p className="mt-4 max-w-xl text-lg leading-relaxed text-fg/75">
+            회사 다니면서 만든 기업 영상이랑 유튜브 편집, 그리고 요즘 AI로 이것저것 만들어 본 것들이에요. 썸네일에 마우스를 올리면 미리보기가 재생됩니다.
+          </p>
         </div>
 
         <div className="flex flex-col gap-4 border-t border-line pt-6 md:flex-row md:items-center md:justify-between">
@@ -75,20 +77,20 @@ export function SelectedWorks({ projects }: { projects: Project[] }) {
                   n === 0 ? "cursor-not-allowed opacity-35 hover:border-line" : "",
                 ].join(" ")}
               >
-                {f}
-                <sup className="ml-1 font-mono text-[10px]">{n}</sup>
+                {f === "All" ? "전체" : CATEGORY_LABEL[f]}
+                <span className="ml-1.5 text-xs opacity-60">{n}</span>
               </button>
             );
           })}
           </div>
-          <p className="font-mono text-xs text-muted" aria-hidden>
-            {String(list.length).padStart(2, "0")} / {String(projects.length).padStart(2, "0")} Projects
+          <p className="text-sm text-muted" aria-hidden>
+            {list.length}편
           </p>
         </div>
       </div>
 
       <p className="sr-only" aria-live="polite">
-        {filter} 카테고리 작품 {list.length}개
+        {filter === "All" ? "전체" : CATEGORY_LABEL[filter]} 작업 {list.length}편
       </p>
 
       <motion.div layout className="grid grid-cols-1 gap-x-6 gap-y-14 md:grid-cols-2 md:gap-x-8 lg:gap-x-10 lg:gap-y-20">
@@ -128,7 +130,7 @@ export function SelectedWorks({ projects }: { projects: Project[] }) {
         <div className="relative mt-16 flex justify-center md:mt-24">
           {!expanded && (
             <div
-              className="pointer-events-none absolute inset-x-0 -top-40 h-40 bg-gradient-to-b from-transparent to-ink"
+              className="pointer-events-none absolute inset-x-0 -top-32 h-32 bg-gradient-to-b from-transparent to-ink"
               aria-hidden
             />
           )}
@@ -138,8 +140,7 @@ export function SelectedWorks({ projects }: { projects: Project[] }) {
             aria-expanded={expanded}
             className="group relative inline-flex items-center gap-3 rounded-full border border-line px-7 py-3.5 text-sm transition-colors duration-300 hover:border-lime hover:text-lime"
           >
-            {expanded ? "접기" : `작품 더보기`}
-            {!expanded && <span className="font-mono text-xs text-muted group-hover:text-lime">+{hiddenCount}</span>}
+            {expanded ? "접기" : `${hiddenCount}편 더 보기`}
             <ChevronDown
               className={`size-4 transition-transform duration-500 ${expanded ? "rotate-180" : ""}`}
               aria-hidden

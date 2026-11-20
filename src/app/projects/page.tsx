@@ -6,21 +6,20 @@ import { teamProjects } from "@/data/teamProjects";
 import { Reveal, RevealWords } from "@/components/ui/Reveal";
 
 export const metadata: Metadata = {
-  title: "Projects",
-  description: "팀 프로젝트와 창업 도전을 문제 · 해결 · 내가 맡은 일 · 결과 순서로 정리했습니다.",
+  title: "프로젝트",
+  description: "팀 프로젝트와 창업 준비 기록. 문제, 해결 방법, 직접 한 일을 나눠서 정리했습니다.",
   alternates: { canonical: "/projects" },
 };
 
 export default function ProjectsPage() {
   return (
     <section className="container-x pb-24 pt-32 md:pb-36 md:pt-44">
-      <p className="eyebrow mb-4">Team Projects · Startup</p>
-      <h1 className="display text-[clamp(3rem,9vw,8rem)]">
-        <RevealWords text="Projects" />
+      <h1 className="display text-[clamp(2.6rem,7vw,5.5rem)]">
+        <RevealWords text="프로젝트" />
       </h1>
       <p className="mt-6 max-w-2xl text-lg leading-relaxed text-fg/75">
-        영상 밖에서 한 작업들입니다. 데이터 분석, 창업 기획, AI 자동화 서비스를
-        문제 → 해결 → 내가 맡은 일 → 결과 순서로 정리했습니다.
+        영상 말고 다른 걸 만들어 본 기록입니다. 각 프로젝트마다 무엇이 문제였고,
+        어떻게 풀었고, 그중 제가 직접 한 일이 무엇인지 나눠서 적었어요.
       </p>
 
       <ol className="mt-16 border-t border-line md:mt-24">
@@ -30,9 +29,7 @@ export default function ProjectsPage() {
               href={`/projects/${p.slug}`}
               className="group grid gap-6 py-10 md:grid-cols-12 md:items-center md:gap-10 md:py-14"
             >
-              <span className="font-mono text-xs text-muted md:col-span-1">
-                {String(i + 1).padStart(2, "0")}
-              </span>
+              <span className="text-sm text-muted md:col-span-1">{i + 1}</span>
 
               <div className="relative aspect-video overflow-hidden rounded-sm bg-ink-2 md:col-span-4">
                 <Image
@@ -45,9 +42,9 @@ export default function ProjectsPage() {
               </div>
 
               <div className="md:col-span-6">
-                <p className="eyebrow flex flex-wrap gap-x-3 gap-y-1">
-                  <span className="text-lime">{p.stage}</span>
-                  <span>{p.period}</span>
+                <p className="flex flex-wrap gap-x-3 gap-y-1 text-sm">
+                  <span className="font-medium text-lime">{p.stage}</span>
+                  <span className="text-muted">{p.period}</span>
                 </p>
                 <h2 className="mt-3 text-[clamp(1.8rem,3.6vw,3rem)] font-bold leading-tight tracking-[-0.03em]">
                   {p.title}
@@ -69,7 +66,7 @@ export default function ProjectsPage() {
               </div>
 
               <span className="hidden justify-self-end md:col-span-1 md:block" aria-hidden>
-                <span className="grid size-12 place-items-center rounded-full border border-line transition-colors duration-300 group-hover:border-lime group-hover:bg-lime group-hover:text-ink">
+                <span className="grid size-12 place-items-center rounded-full border border-line transition-colors duration-300 group-hover:border-fg group-hover:bg-fg group-hover:text-ink">
                   <ArrowUpRight className="size-5 transition-transform duration-500 group-hover:rotate-45" />
                 </span>
               </span>

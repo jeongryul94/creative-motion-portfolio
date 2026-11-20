@@ -3,9 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { motion, useMotionValue, useSpring } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
-import type { Project } from "@/lib/types";
+import { CATEGORY_LABEL, type Project } from "@/lib/types";
 import { formatDuration } from "@/lib/video";
 import { canHover, playExclusive, prefersReducedMotion, prefersSaveData, release } from "@/components/video/playback";
 import { SampleBadge } from "@/components/ui/SampleBadge";
@@ -19,10 +18,6 @@ export function ProjectCard({ project, index, featured = false }: Props) {
   const [loaded, setLoaded] = useState(false); // 미리보기 src는 처음 활성화될 때만 붙입니다.
   const [hoverMode, setHoverMode] = useState(true);
 
-  // 커서를 따라다니는 "View" 라벨
-  const cx = useSpring(useMotionValue(0), { stiffness: 300, damping: 30 });
-  const cy = useSpring(useMotionValue(0), { stiffness: 300, damping: 30 });
-  const [cursorOn, setCursorOn] = useState(false);
 
   const previewAllowed = () => !!project.previewUrl && !prefersReducedMotion() && !prefersSaveData();
 
@@ -55,23 +50,15 @@ export function ProjectCard({ project, index, featured = false }: Props) {
 
   function onEnter(e: React.PointerEvent) {
     if (e.pointerType !== "mouse") return;
-    setCursorOn(true);
     if (!previewAllowed()) return;
     setLoaded(true);
     setActive(true);
   }
   function onLeave() {
-    setCursorOn(false);
     setActive(false);
   }
-  function onMove(e: React.PointerEvent) {
-    if (e.pointerType !== "mouse" || !cardRef.current) return;
-    const r = cardRef.current.getBoundingClientRect();
-    cx.set(e.clientX - r.left);
-    cy.set(e.clientY - r.top);
-  }
 
-  const meta = [project.year, project.role ?? project.category].filter(Boolean).join(" · ");
+  const meta = [project.year, project.role ?? CATEGORY_LABEL[project.category]].filter(Boolean).join(" · ");
 
   return (
     <Link
@@ -80,16 +67,14 @@ export function ProjectCard({ project, index, featured = false }: Props) {
       className="group block focus-visible:outline-none"
       onPointerEnter={onEnter}
       onPointerLeave={onLeave}
-      onPointerMove={onMove}
       onFocus={() => previewAllowed() && (setLoaded(true), setActive(true))}
       onBlur={() => setActive(false)}
-      aria-label={`${project.title} — 프로젝트 자세히 보기`}
+      aria-label={`${project.title} 자세히 보기`}
     >
       <div
         className={`relative overflow-hidden rounded-sm bg-ink-2 ring-lime/0 transition-[box-shadow] duration-300 group-focus-visible:ring-2 group-focus-visible:ring-lime ${
           featured ? "aspect-[4/5] sm:aspect-video lg:aspect-[21/9]" : "aspect-video"
         }`}
-        style={{ cursor: cursorOn ? "none" : undefined }}
       >
         <Image
           src={project.thumbnail}
@@ -113,45 +98,32 @@ export function ProjectCard({ project, index, featured = false }: Props) {
             }`}
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent opacity-80" />
+        {featured && <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />}
 
         {/* 상단 정보 */}
         <div className="absolute inset-x-0 top-0 flex items-start justify-between p-4 md:p-5">
-          <span className="font-mono text-xs text-fg/80">{String(index + 1).padStart(2, "0")}</span>
+          <span />
           <div className="flex items-center gap-2">
             {project.isSample && <SampleBadge label="SAMPLE" />}
             {featured && (
-              <span className="rounded-full bg-lime px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-ink">
-                Featured
-              </span>
+              <span className="rounded-full bg-lime px-2.5 py-0.5 text-xs font-semibold text-white">대표작</span>
             )}
             {project.duration != null && (
-              <span className="rounded-full bg-ink/60 px-2.5 py-0.5 font-mono text-[10px] tracking-wider text-fg/90 backdrop-blur">
+              <span className="rounded-full bg-black/55 px-2.5 py-0.5 text-xs tabular-nums text-white">
                 {formatDuration(project.duration)}
               </span>
             )}
           </div>
         </div>
 
-        {/* 커서 라벨 (마우스 전용) */}
-        <motion.span
-          aria-hidden
-          className="pointer-events-none absolute left-0 top-0 hidden size-24 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-lime font-mono text-xs font-medium uppercase tracking-wider text-ink md:grid"
-          style={{ x: cx, y: cy }}
-          initial={false}
-          animate={{ scale: cursorOn ? 1 : 0, opacity: cursorOn ? 1 : 0 }}
-          transition={{ duration: 0.25 }}
-        >
-          View
-        </motion.span>
 
         {featured && (
-          <div className="absolute inset-x-0 bottom-0 p-5 md:p-8">
-            <p className="eyebrow mb-3 text-fg/70">{meta}</p>
-            <h3 className="max-w-3xl text-2xl font-semibold leading-tight tracking-tight md:text-4xl lg:text-5xl">
+          <div className="absolute inset-x-0 bottom-0 p-5 text-white md:p-8">
+            <p className="mb-3 text-sm text-white/75">{meta}</p>
+            <h3 className="max-w-3xl text-2xl font-bold leading-tight tracking-[-0.03em] md:text-4xl lg:text-5xl">
               {project.title}
             </h3>
-            <p className="mt-3 max-w-xl text-sm text-fg/75 md:text-base">{project.summary}</p>
+            <p className="mt-3 max-w-xl text-sm text-white/80 md:text-base">{project.summary}</p>
           </div>
         )}
       </div>

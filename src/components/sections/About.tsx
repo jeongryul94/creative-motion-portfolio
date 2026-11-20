@@ -1,6 +1,4 @@
 import { about } from "@/data/site";
-import { projects } from "@/data/projects";
-import { CATEGORIES } from "@/lib/types";
 import { Reveal, RevealWords } from "@/components/ui/Reveal";
 import { SampleBadge } from "@/components/ui/SampleBadge";
 
@@ -14,37 +12,27 @@ const specialties = [
 ];
 
 export function About() {
-  // 수치는 실제 등록된 작품 데이터에서만 계산합니다.
-  const totalSec = projects.reduce((s, p) => s + (p.duration ?? 0), 0);
-  const usedCats = CATEGORIES.filter((c) => projects.some((p) => p.category === c)).length;
-  const stats = [
-    { value: String(projects.length).padStart(2, "0"), label: "공개 작품" },
-    { value: `${Math.round(totalSec / 60)}′`, label: "총 러닝타임(분)" },
-    { value: String(usedCats).padStart(2, "0"), label: "작업 카테고리" },
-  ];
-
   return (
     <section id="about" aria-labelledby="about-title" className="border-t border-line bg-ink-2/40 py-24 md:py-36">
       <div className="container-x grid gap-14 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-28">
-            <p className="eyebrow mb-4">(03) — About</p>
-            <h2 id="about-title" className="display text-[clamp(3rem,9vw,8rem)]">
-              <RevealWords text="About Me" />
+            <h2 id="about-title" className="display text-[clamp(2.4rem,6vw,5rem)]">
+              <RevealWords text="소개" />
             </h2>
             <Reveal className="mt-8 flex items-center gap-3">
               <p className="text-xl font-semibold">{about.name.value}</p>
               {about.name.sample && <SampleBadge />}
             </Reveal>
             <Reveal delay={0.1}>
-              <p className="mt-2 text-muted">Video Director · Editor · Motion Designer</p>
+              <p className="mt-2 text-muted">영상 편집 · 모션 · 데이터 분석과 자동화 공부 중</p>
             </Reveal>
           </div>
         </div>
 
         <div className="lg:col-span-7">
           <Reveal>
-            <p className="whitespace-pre-line text-2xl font-semibold leading-snug tracking-tight md:text-4xl">
+            <p className="whitespace-pre-line text-2xl font-bold leading-snug tracking-[-0.03em] md:text-[2.25rem]">
               {about.headline}
             </p>
           </Reveal>
@@ -56,41 +44,28 @@ export function About() {
             ))}
           </div>
 
-          <dl className="mt-14 grid grid-cols-3 border-y border-line">
-            {stats.map((s, i) => (
-              <Reveal key={s.label} delay={i * 0.08} className={`py-6 ${i > 0 ? "border-l border-line pl-4 md:pl-6" : ""}`}>
-                <dt className="sr-only">{s.label}</dt>
-                <dd className="display text-5xl text-lime md:text-7xl">{s.value}</dd>
-                <dd className="mt-2 text-xs text-muted md:text-sm">{s.label}</dd>
-              </Reveal>
-            ))}
-          </dl>
-
           <div className="mt-14 grid gap-12 md:grid-cols-2">
             <Reveal>
               <h3 className="eyebrow mb-5">전문 분야</h3>
               <ul className="space-y-2.5">
                 {specialties.map((s) => (
                   <li key={s} className="flex items-center gap-3 text-fg/90">
-                    <span className="h-px w-4 bg-lime" aria-hidden />
+                    <span className="text-muted" aria-hidden>·</span>
                     {s}
                   </li>
                 ))}
               </ul>
             </Reveal>
             <Reveal delay={0.08}>
-              <h3 className="eyebrow mb-5">제작 철학</h3>
-              <ol className="space-y-4">
-                {about.philosophy.map((p, i) => (
-                  <li key={p.title} className="grid grid-cols-[2rem_1fr]">
-                    <span className="font-mono text-xs text-lime">0{i + 1}</span>
-                    <div>
-                      <p className="font-semibold">{p.title}</p>
-                      <p className="mt-1 text-sm text-muted">{p.body}</p>
-                    </div>
+              <h3 className="eyebrow mb-5">일할 때 지키는 것</h3>
+              <ul className="space-y-5">
+                {about.philosophy.map((p) => (
+                  <li key={p.title}>
+                    <p className="font-semibold">{p.title}</p>
+                    <p className="mt-1 text-sm leading-relaxed text-muted">{p.body}</p>
                   </li>
                 ))}
-              </ol>
+              </ul>
             </Reveal>
           </div>
 
@@ -102,7 +77,7 @@ export function About() {
             <ul className="divide-y divide-line border-y border-line">
               {about.career.items.map((c) => (
                 <li key={c.title} className="grid gap-1 py-4 md:grid-cols-[10rem_1fr_1fr] md:gap-6">
-                  <span className="font-mono text-xs text-muted md:pt-1">{c.period}</span>
+                  <span className="text-sm text-muted">{c.period}</span>
                   <span className="font-semibold">{c.title}</span>
                   <span className="text-sm text-muted">{c.body}</span>
                 </li>
@@ -125,9 +100,8 @@ export function About() {
           </Reveal>
 
           <Reveal className="mt-14">
-            <div className="relative overflow-hidden rounded-sm border border-lime/30 bg-lime/[0.04] p-6 md:p-8">
-              <p className="eyebrow mb-3 text-lime">Differentiator</p>
-              <p className="text-xl font-semibold md:text-2xl">{about.edge.title}</p>
+            <div className="border-l-2 border-lime pl-5 md:pl-6">
+              <p className="text-xl font-bold tracking-[-0.02em] md:text-2xl">{about.edge.title}</p>
               <p className="mt-3 leading-relaxed text-fg/75">{about.edge.body}</p>
             </div>
           </Reveal>

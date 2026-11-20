@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 function Block({ label, children, id }: { label: string; children: React.ReactNode; id?: string }) {
   return (
     <section id={id} className="mt-20 grid scroll-mt-28 gap-8 md:mt-28 lg:grid-cols-12">
-      <h2 className="eyebrow lg:col-span-4">{label}</h2>
+      <h2 className="text-xl font-bold tracking-[-0.02em] md:text-2xl lg:col-span-4">{label}</h2>
       <div className="min-w-0 lg:col-span-8">{children}</div>
     </section>
   );
@@ -43,7 +43,7 @@ function DataTable({ cols, rows }: { cols: string[]; rows: string[][] }) {
         <thead className="bg-ink-2">
           <tr>
             {cols.map((c) => (
-              <th key={c} scope="col" className="px-4 py-3 font-mono text-xs font-normal uppercase tracking-wider text-muted">
+              <th key={c} scope="col" className="px-4 py-3 text-xs font-semibold text-muted">
                 {c}
               </th>
             ))}
@@ -54,7 +54,7 @@ function DataTable({ cols, rows }: { cols: string[]; rows: string[][] }) {
             <tr key={i} className="border-t border-line">
               {r.map((cell, j) => (
                 <td key={j} className={`px-4 py-3 leading-relaxed ${j === 0 ? "font-semibold text-fg" : "text-fg/80"}`}>
-                  {cell === "PASS" ? <span className="font-mono text-lime">PASS</span> : cell}
+                  {cell === "PASS" ? <span className="font-semibold text-lime">통과</span> : cell}
                 </td>
               ))}
             </tr>
@@ -106,15 +106,11 @@ export default async function TeamProjectPage({ params }: Params) {
   const next = teamProjects[(idx + 1) % teamProjects.length];
 
   const meta = [
-    { label: "Period", value: p.period },
-    { label: "Team", value: p.team },
-    { label: "With", value: p.partner },
-    { label: "My role", value: p.role },
+    { label: "기간", value: p.period },
+    { label: "팀", value: p.team },
+    { label: "함께한 곳", value: p.partner },
+    { label: "맡은 역할", value: p.role },
   ].filter((x): x is { label: string; value: string } => !!x.value);
-
-  // 섹션 번호는 있는 섹션만 차례로 매깁니다.
-  let count = 0;
-  const n = () => String(++count).padStart(2, "0");
 
   const toc = [
     p.architecture && { id: "architecture", label: "시스템 구조" },
@@ -131,13 +127,13 @@ export default async function TeamProjectPage({ params }: Params) {
     <article className="pt-28 md:pt-36">
       <div className="container-x">
         <Link href="/projects" className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-fg">
-          <ArrowLeft className="size-4" aria-hidden /> All projects
+          <ArrowLeft className="size-4" aria-hidden /> 프로젝트 목록
         </Link>
 
         <header className="mt-10 grid gap-8 md:mt-14 lg:grid-cols-12">
           <div className="lg:col-span-8">
             <Reveal>
-              <p className="eyebrow mb-5 text-lime">{p.stage}</p>
+              <p className="mb-5 text-sm font-medium text-lime">{p.stage}</p>
             </Reveal>
             <Reveal delay={0.05}>
               <h1 className="text-[clamp(2.4rem,6vw,5.5rem)] font-bold leading-[1.05] tracking-[-0.03em]">{p.title}</h1>
@@ -183,17 +179,16 @@ export default async function TeamProjectPage({ params }: Params) {
           ))}
         </nav>
 
-        <Block label={`${n()} · 문제`}>
+        <Block label="문제">
           <Bullets items={p.problem} />
         </Block>
 
-        <Block label={`${n()} · 해결`}>
+        <Block label="해결">
           <Bullets items={p.solution} />
           <ul className="mt-10 grid gap-px overflow-hidden rounded-sm bg-line sm:grid-cols-2">
             {p.features.map((f, i) => (
               <Reveal as="li" key={f.title} delay={i * 0.05} className="bg-ink p-6 md:p-7">
-                <span className="font-mono text-xs text-lime">FEATURE {String(i + 1).padStart(2, "0")}</span>
-                <p className="mt-3 text-lg font-semibold">{f.title}</p>
+                <p className="text-lg font-semibold">{f.title}</p>
                 <p className="mt-2 text-sm leading-relaxed text-muted">{f.body}</p>
               </Reveal>
             ))}
@@ -201,12 +196,12 @@ export default async function TeamProjectPage({ params }: Params) {
         </Block>
 
         {p.architecture && (
-          <Block id="architecture" label={`${n()} · 시스템 구조`}>
+          <Block id="architecture" label="시스템 구조">
             <Figure src={p.architecture.image} caption={p.architecture.caption} />
             <ol className="mt-8 space-y-3">
               {p.architecture.points.map((t, i) => (
                 <li key={t} className="flex gap-4 leading-relaxed text-fg/85">
-                  <span className="font-mono text-sm text-lime">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="text-muted">{i + 1}.</span>
                   {t}
                 </li>
               ))}
@@ -215,7 +210,7 @@ export default async function TeamProjectPage({ params }: Params) {
         )}
 
         {p.deepDives && p.deepDives.length > 0 && (
-          <Block id="deep-dive" label={`${n()} · 핵심 설계`}>
+          <Block id="deep-dive" label="핵심 설계">
             <div className="space-y-16">
               {p.deepDives.map((d) => (
                 <Reveal key={d.title}>
@@ -237,13 +232,12 @@ export default async function TeamProjectPage({ params }: Params) {
           </Block>
         )}
 
-        <Block label={`${n()} · 진행 과정`}>
+        <Block label="진행 과정">
           <ol className="relative space-y-8 border-l border-line pl-8">
             {p.process.map((s, i) => (
               <Reveal as="li" key={s.title} delay={i * 0.05} className="relative">
                 <span className="absolute -left-[calc(2rem+5px)] top-1.5 size-2.5 rounded-full bg-lime" aria-hidden />
-                <span className="font-mono text-xs text-muted">STEP {String(i + 1).padStart(2, "0")}</span>
-                <p className="mt-1 text-lg font-semibold">{s.title}</p>
+                <p className="text-lg font-semibold">{s.title}</p>
                 <p className="mt-1 leading-relaxed text-muted">{s.body}</p>
               </Reveal>
             ))}
@@ -254,7 +248,7 @@ export default async function TeamProjectPage({ params }: Params) {
               <ul className="grid gap-px overflow-hidden rounded-sm bg-line sm:grid-cols-2">
                 {p.milestones.map((m) => (
                   <li key={m.title} className="bg-ink p-5">
-                    <p className="flex items-center gap-2 font-mono text-xs">
+                    <p className="flex items-center gap-2 text-xs">
                       <span className={`size-2 rounded-full ${m.done ? "bg-lime" : "border border-lime"}`} aria-hidden />
                       <span className={m.done ? "text-lime" : "text-muted"}>{m.date}</span>
                       <span className="text-muted">{m.done ? "완료" : "예정"}</span>
@@ -272,7 +266,7 @@ export default async function TeamProjectPage({ params }: Params) {
       {p.automation && (
         <section id="automation" aria-labelledby="automation-title" className="mt-24 scroll-mt-28 border-y border-line bg-ink-2/60 py-20 md:mt-32 md:py-28">
           <div className="container-x">
-            <p className="eyebrow mb-4 text-lime">{n()} · 자동화 시스템 실행 화면</p>
+            <p className="eyebrow mb-4 text-lime">자동화 시스템 실행 화면</p>
             <h2 id="automation-title" className="max-w-3xl text-[clamp(1.8rem,3.6vw,3rem)] font-bold leading-tight tracking-[-0.03em]">
               {p.slug === "in2us-inventory-check" ? "사진 한 장이 재고가 되기까지" : "AI로 혼자서 빠르게 반복하는 법"}
             </h2>
@@ -287,9 +281,7 @@ export default async function TeamProjectPage({ params }: Params) {
                     </div>
                   )}
                   <div className={s.image ? `lg:col-span-5 ${i % 2 === 1 ? "lg:order-1" : ""}` : "lg:col-span-8"}>
-                    <p className="font-mono text-xs text-lime">
-                      {String(i + 1).padStart(2, "0")} · {s.tag}
-                    </p>
+                    <p className="text-sm font-medium text-lime">{s.tag}</p>
                     <h3 className="mt-3 text-xl font-semibold leading-snug tracking-tight md:text-2xl">{s.title}</h3>
                     <p className="mt-3 leading-relaxed text-fg/75">{s.body}</p>
                   </div>
@@ -302,12 +294,11 @@ export default async function TeamProjectPage({ params }: Params) {
 
       <div className="container-x">
         {p.troubleshooting && (
-          <Block id="troubleshooting" label={`${n()} · 트러블슈팅`}>
+          <Block id="troubleshooting" label="트러블슈팅">
             <ul className="grid gap-px overflow-hidden rounded-sm bg-line md:grid-cols-2">
               {p.troubleshooting.map((t, i) => (
                 <Reveal as="li" key={t.title} delay={(i % 2) * 0.05} className="bg-ink p-6 md:p-7">
-                  <span className="font-mono text-xs text-lime">#{String(i + 1).padStart(2, "0")}</span>
-                  <p className="mt-2 text-lg font-semibold leading-snug">{t.title}</p>
+                  <p className="text-lg font-semibold leading-snug">{t.title}</p>
                   <dl className="mt-4 space-y-2 text-sm leading-relaxed">
                     <div className="flex gap-3">
                       <dt className="w-10 shrink-0 text-muted">원인</dt>
@@ -328,11 +319,11 @@ export default async function TeamProjectPage({ params }: Params) {
           </Block>
         )}
 
-        <Block id="ownership" label={`${n()} · 내가 한 일 / 협업`}>
+        <Block id="ownership" label="내가 한 일 / 협업">
           {p.ownership ? (
             <div className="grid gap-px overflow-hidden rounded-sm bg-line md:grid-cols-2">
               <div className="bg-ink p-6 md:p-8">
-                <p className="inline-flex items-center gap-2 rounded-full bg-lime px-3 py-1 text-xs font-semibold text-ink">직접 작업</p>
+                <p className="inline-flex items-center gap-2 rounded-full bg-fg px-3 py-1 text-xs font-semibold text-ink">직접 한 일</p>
                 <ul className="mt-5 space-y-3">
                   {p.ownership.mine.map((t) => (
                     <li key={t} className="flex gap-3 leading-relaxed text-fg/90">
@@ -343,7 +334,7 @@ export default async function TeamProjectPage({ params }: Params) {
                 </ul>
               </div>
               <div className="bg-ink p-6 md:p-8">
-                <p className="inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-xs font-semibold text-fg/80">협업 · 다른 사람 작업</p>
+                <p className="inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-xs font-semibold text-fg/80">팀원이 한 일</p>
                 <ul className="mt-5 space-y-4">
                   {p.ownership.team.map((t) => (
                     <li key={t.who} className="leading-relaxed">
@@ -360,11 +351,11 @@ export default async function TeamProjectPage({ params }: Params) {
           {p.ownership?.note && <p className="mt-4 text-sm text-muted">※ {p.ownership.note}</p>}
         </Block>
 
-        <Block id="results" label={`${n()} · 결과`}>
+        <Block id="results" label="결과">
           <ul className="grid gap-px overflow-hidden rounded-sm bg-line sm:grid-cols-3">
             {p.results.map((r) => (
               <li key={r.label} className="bg-ink p-6 md:p-8">
-                <p className="display text-[clamp(2.2rem,4vw,3.4rem)] text-lime">{r.value}</p>
+                <p className="text-[clamp(2rem,3.6vw,3rem)] font-extrabold tracking-[-0.04em] text-fg">{r.value}</p>
                 <p className="mt-2 text-sm text-fg/80">{r.label}</p>
               </li>
             ))}
@@ -379,13 +370,12 @@ export default async function TeamProjectPage({ params }: Params) {
         </Block>
 
         {p.limits && (
-          <Block id="limits" label={`${n()} · 한계와 다음 단계`}>
+          <Block id="limits" label="한계와 다음 단계">
             <Bullets items={p.limits.now} />
             <ol className="mt-8 grid gap-px overflow-hidden rounded-sm bg-line sm:grid-cols-2">
               {p.limits.next.map((x, i) => (
                 <li key={x.title} className="bg-ink p-6">
-                  <span className="font-mono text-xs text-lime">NEXT {String(i + 1).padStart(2, "0")}</span>
-                  <p className="mt-2 font-semibold">{x.title}</p>
+                  <p className="font-semibold">{x.title}</p>
                   <p className="mt-1 text-sm leading-relaxed text-muted">{x.body}</p>
                 </li>
               ))}
@@ -393,7 +383,7 @@ export default async function TeamProjectPage({ params }: Params) {
           </Block>
         )}
 
-        <Block label={`${n()} · 기술 스택`}>
+        <Block label="기술 스택">
           <ul className="flex flex-wrap gap-2">
             {p.stack.map((t) => (
               <li key={t} className="rounded-full border border-line px-4 py-1.5 text-sm">
@@ -404,7 +394,7 @@ export default async function TeamProjectPage({ params }: Params) {
         </Block>
 
         {p.resources && p.resources.length > 0 && (
-          <Block id="resources" label={`${n()} · 자료 · 링크`}>
+          <Block id="resources" label="자료 · 링크">
             <ul className="grid gap-3 sm:grid-cols-2">
               {p.resources.map((r) => {
                 const Icon = RESOURCE_ICON[r.kind];
@@ -457,7 +447,7 @@ export default async function TeamProjectPage({ params }: Params) {
                       />
                     </span>
                     <span className="mt-3 block text-sm text-fg/80">
-                      <span className="mr-2 font-mono text-xs text-lime">{String(i + 1).padStart(2, "0")}</span>
+                      <span className="mr-2 text-muted">{i + 1}.</span>
                       {s.caption}
                     </span>
                   </a>
@@ -508,7 +498,7 @@ export default async function TeamProjectPage({ params }: Params) {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/80 to-ink/30" />
         <div className="container-x relative flex min-h-[40vh] flex-col justify-center py-20">
-          <p className="eyebrow mb-4">Next project</p>
+          <p className="eyebrow mb-4">다음 프로젝트</p>
           <p className="flex items-center gap-4 text-[clamp(2rem,6vw,5rem)] font-bold leading-tight tracking-[-0.03em]">
             {next.title}
             <ArrowUpRight className="size-[0.8em] shrink-0 text-lime transition-transform duration-500 group-hover:rotate-45" aria-hidden />
