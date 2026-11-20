@@ -28,7 +28,7 @@ export function About() {
       <div className="container-x grid gap-14 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-28">
-            <p className="eyebrow mb-4">(02) — About</p>
+            <p className="eyebrow mb-4">(03) — About</p>
             <h2 id="about-title" className="display text-[clamp(3rem,9vw,8rem)]">
               <RevealWords text="About Me" />
             </h2>

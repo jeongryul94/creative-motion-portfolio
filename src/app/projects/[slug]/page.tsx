@@ -124,6 +124,7 @@ export default async function TeamProjectPage({ params }: Params) {
     { id: "ownership", label: "내가 한 일 / 협업" },
     { id: "results", label: "결과" },
     p.resources?.length && { id: "resources", label: "자료 · 링크" },
+    p.slides?.length && { id: "slides", label: "사업 요약 슬라이드" },
   ].filter((x): x is { id: string; label: string } => !!x);
 
   return (
@@ -435,6 +436,35 @@ export default async function TeamProjectPage({ params }: Params) {
               </p>
             )}
           </Block>
+        )}
+
+        {p.slides && p.slides.length > 0 && (
+          <section id="slides" aria-labelledby="slides-title" className="mt-24 scroll-mt-28 md:mt-32">
+            <h2 id="slides-title" className="mb-8 text-2xl font-semibold tracking-tight md:text-3xl">
+              사업 요약 슬라이드
+            </h2>
+            <ul className="grid gap-6 sm:grid-cols-2">
+              {p.slides.map((s, i) => (
+                <Reveal as="li" key={s.src} delay={(i % 2) * 0.05}>
+                  <a href={s.src} target="_blank" rel="noreferrer" className="group block">
+                    <span className="relative block aspect-video overflow-hidden rounded-sm border border-line bg-ink-2">
+                      <Image
+                        src={s.src}
+                        alt={s.caption}
+                        fill
+                        sizes="(min-width: 640px) 50vw, 100vw"
+                        className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                      />
+                    </span>
+                    <span className="mt-3 block text-sm text-fg/80">
+                      <span className="mr-2 font-mono text-xs text-lime">{String(i + 1).padStart(2, "0")}</span>
+                      {s.caption}
+                    </span>
+                  </a>
+                </Reveal>
+              ))}
+            </ul>
+          </section>
         )}
 
         {p.gallery && p.gallery.length > 0 && (

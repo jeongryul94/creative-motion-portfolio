@@ -20,7 +20,7 @@ export function Expertise() {
   return (
     <section id="expertise" aria-labelledby="expertise-title" className="overflow-hidden border-t border-line py-24 md:py-36">
       <div className="container-x">
-        <p className="eyebrow mb-4">(03) — Expertise</p>
+        <p className="eyebrow mb-4">(04) — Expertise</p>
         <h2 id="expertise-title" className="display max-w-5xl text-[clamp(3rem,9vw,8rem)]">
           <RevealWords text="What I Do" />
         </h2>

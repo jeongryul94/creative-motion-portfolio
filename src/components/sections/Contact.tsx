@@ -13,7 +13,7 @@ export function Contact() {
   return (
     <section id="contact" aria-labelledby="contact-title" className="border-t border-line py-24 md:py-36">
       <div className="container-x">
-        <p className="eyebrow mb-4">(04) — Contact</p>
+        <p className="eyebrow mb-4">(05) — Contact</p>
         <h2 id="contact-title" className="display text-[clamp(3.2rem,11vw,11rem)]">
           <RevealWords text="Have a project" />
           <br />

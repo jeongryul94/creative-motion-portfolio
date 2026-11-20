@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
+import { ChevronDown } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { CATEGORIES, type Category, type Project } from "@/lib/types";
 import { ProjectCard } from "@/components/works/ProjectCard";
@@ -8,8 +9,13 @@ import { RevealWords } from "@/components/ui/Reveal";
 
 type Filter = "All" | Category;
 
+/** 접힌 상태에서 보여줄 작품 수 (대표작 포함) */
+const COLLAPSED_COUNT = 5;
+
 export function SelectedWorks({ projects }: { projects: Project[] }) {
   const [filter, setFilter] = useState<Filter>("All");
+  const [expanded, setExpanded] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
   const counts = useMemo(() => {
     const c: Record<string, number> = { All: projects.length };
@@ -24,10 +30,19 @@ export function SelectedWorks({ projects }: { projects: Project[] }) {
   }, [filter, projects]);
 
   const featured = list.find((p) => p.featured);
-  const rest = list.filter((p) => p !== featured);
+  const allRest = list.filter((p) => p !== featured);
+  const limit = COLLAPSED_COUNT - (featured ? 1 : 0);
+  const canCollapse = allRest.length > limit;
+  const rest = expanded || !canCollapse ? allRest : allRest.slice(0, limit);
+  const hiddenCount = allRest.length - rest.length;
+
+  const toggle = () => {
+    if (expanded) sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setExpanded((v) => !v);
+  };
 
   return (
-    <section id="work" aria-labelledby="work-title" className="container-x py-24 md:py-36">
+    <section ref={sectionRef} id="work" aria-labelledby="work-title" className="container-x py-24 md:py-36">
       <div className="mb-10 flex flex-col gap-8 md:mb-16">
         <div>
           <p className="eyebrow mb-4">(01) — Selected Works</p>
@@ -48,7 +63,10 @@ export function SelectedWorks({ projects }: { projects: Project[] }) {
                 aria-pressed={on}
                 disabled={n === 0}
                 title={n === 0 ? "작품 준비 중" : undefined}
-                onClick={() => setFilter(f)}
+                onClick={() => {
+                  setFilter(f);
+                  setExpanded(false);
+                }}
                 className={[
                   "rounded-full border px-4 py-2 text-sm transition-colors duration-300",
                   on
@@ -105,6 +123,30 @@ export function SelectedWorks({ projects }: { projects: Project[] }) {
           ))}
         </AnimatePresence>
       </motion.div>
+
+      {canCollapse && (
+        <div className="relative mt-16 flex justify-center md:mt-24">
+          {!expanded && (
+            <div
+              className="pointer-events-none absolute inset-x-0 -top-40 h-40 bg-gradient-to-b from-transparent to-ink"
+              aria-hidden
+            />
+          )}
+          <button
+            type="button"
+            onClick={toggle}
+            aria-expanded={expanded}
+            className="group relative inline-flex items-center gap-3 rounded-full border border-line px-7 py-3.5 text-sm transition-colors duration-300 hover:border-lime hover:text-lime"
+          >
+            {expanded ? "접기" : `작품 더보기`}
+            {!expanded && <span className="font-mono text-xs text-muted group-hover:text-lime">+{hiddenCount}</span>}
+            <ChevronDown
+              className={`size-4 transition-transform duration-500 ${expanded ? "rotate-180" : ""}`}
+              aria-hidden
+            />
+          </button>
+        </div>
+      )}
     </section>
   );
 }

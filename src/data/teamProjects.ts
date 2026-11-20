@@ -59,6 +59,8 @@ export type TeamProject = {
   resources?: { kind: "pdf" | "video" | "link"; label: string; href: string; note?: string }[];
   /** 보안 · 개인정보 처리 안내 */
   privacyNote?: string;
+  /** 발표 · 피치 슬라이드 (16:9) */
+  slides?: { src: string; caption: string }[];
 };
 
 const m = (slug: string, file: string) => `/media/projects/${slug}/${file}`;
@@ -67,23 +69,23 @@ export const teamProjects: TeamProject[] = [
   {
     slug: "smhrd-dropout-guard",
     stage: "1차 프로젝트 · 미니 데이터분석",
-    title: "스인개를 지켜라",
-    subtitle: "데이터로 미리 감지하는 훈련생 중도탈락",
+    title: "훈련생 중도탈락 조기 감지",
+    subtitle: "출결 · 학습 데이터로 이탈 신호를 먼저 잡는 위험 예측 서비스",
     summary:
       "국비 훈련기관의 중도탈락을 결석이 쌓인 뒤가 아니라 이탈 신호가 보일 때 잡아내는 위험 예측 · 관리 서비스를 기획하고 데이터로 가설을 검증했습니다.",
     period: "2026.09.08 – 09.15",
     team: "5직 직진 · 5명",
     partner: "스마트인재개발원",
     role: "사용자 조사(페르소나 설계) · 데이터 수집 · 발표자료",
-    thumbnail: m("smhrd-dropout-guard", "poster.jpg"),
+    thumbnail: m("smhrd-dropout-guard", "poster-v2.jpg"),
     video: {
-      src: m("smhrd-dropout-guard", "video.mp4"),
+      src: m("smhrd-dropout-guard", "video-v2.mp4"),
       label: "최종 발표 영상",
       scenes: [
-        { time: 60, image: m("smhrd-dropout-guard", "scene-1.jpg"), caption: "직원 설문으로 찾은 핵심 문제점" },
-        { time: 84, image: m("smhrd-dropout-guard", "scene-2.jpg"), caption: "교육운영 담당자 페르소나 2명" },
-        { time: 108, image: m("smhrd-dropout-guard", "scene-3.jpg"), caption: "중도포기 직전의 데이터 변화" },
-        { time: 132, image: m("smhrd-dropout-guard", "scene-4.jpg"), caption: "해결 방안 · 챗봇 MVP" },
+        { time: 34, image: m("smhrd-dropout-guard", "scene-1.jpg"), caption: "훈련 결과가 곧 기관 평가로 이어지는 구조" },
+        { time: 58, image: m("smhrd-dropout-guard", "scene-2.jpg"), caption: "직원 설문: 훈련생 이탈 위험 신호" },
+        { time: 76.5, image: m("smhrd-dropout-guard", "scene-3.jpg"), caption: "중도포기 직전의 학습 행동 변화" },
+        { time: 100.5, image: m("smhrd-dropout-guard", "scene-4.jpg"), caption: "위험군별 인원과 실제 이탈률" },
       ],
     },
     problem: [
@@ -124,8 +126,8 @@ export const teamProjects: TeamProject[] = [
   {
     slug: "smart-attendance-ai",
     stage: "창업 도전 · 모두의 창업 2기 1라운드 진출",
-    title: "스마트출결AI",
-    subtitle: "결석해도, 뒤처지지 않게",
+    title: "국비훈련 출결 · 서류 관리 AI 플랫폼",
+    subtitle: "스마트출결AI — 결석해도, 뒤처지지 않게",
     summary:
       "1차 프로젝트에서 찾은 문제를 창업 아이템으로 발전시켜, 국비 훈련기관을 위한 출결 · 서류 · 학습 보강 통합 플랫폼을 사업화 관점으로 설계했습니다.",
     period: "2026.09 – 진행 중",
@@ -249,16 +251,21 @@ export const teamProjects: TeamProject[] = [
       ],
       note: "모두의 창업은 개인 명의로 지원한 과제이며, 1차 팀 프로젝트에서 함께 찾은 문제를 사업 아이템으로 발전시켰습니다.",
     },
+    slides: [1, 2, 3, 4, 5, 6].map((i) => ({
+      src: m("smart-attendance-ai", `pitch-${i}.jpg`),
+      caption: ["표지", "문제", "해결 흐름", "Before / After", "비즈니스 모델 · 로드맵", "진행 현황 · 다음 단계"][i - 1],
+    })),
     resources: [
+      { kind: "pdf", label: "사업 요약 피치 슬라이드", href: m("smart-attendance-ai", "smart-attendance-pitch-summary.pdf"), note: "PDF · 6장" },
       { kind: "pdf", label: "사업계획서 자동생성 프롬프트 v2", href: m("smart-attendance-ai", "business-plan-prompt-v2.pdf"), note: "PDF · 6쪽" },
       { kind: "video", label: "결석 보강 콘텐츠 모션 샘플", href: m("smart-attendance-ai", "video.mp4"), note: "MP4" },
-      { kind: "link", label: "1차 프로젝트: 스인개를 지켜라", href: "/projects/smhrd-dropout-guard", note: "문제를 처음 발견한 프로젝트" },
+      { kind: "link", label: "1차 프로젝트: 훈련생 중도탈락 조기 감지", href: "/projects/smhrd-dropout-guard", note: "문제를 처음 발견한 프로젝트" },
     ],
   },
   {
     slug: "in2us-inventory-check",
     stage: "2차 프로젝트 · 핵심 프로젝트",
-    title: "IN2US",
+    title: "AI 손글씨 재고실사 검증 자동화",
     subtitle: "손글씨 실사표 한 장을 믿고 쓰는 재고 데이터로",
     summary:
       "배터리 제조사 물류 창고의 재고 실사 문제를 다뤘습니다. 현장 손글씨 실사표 사진을 AI가 읽고, DB 규칙이 숫자를 검사하고, 사람이 승인하는 재고 검수 서비스를 만들었습니다.",
@@ -459,7 +466,7 @@ export const teamProjects: TeamProject[] = [
       ],
     },
     resources: [
-      { kind: "pdf", label: "IN2US 최종 발표자료", href: m("in2us-inventory-check", "IN2US_final_presentation.pdf"), note: "PDF · 26쪽 · 팀원 이름 가림" },
+      { kind: "pdf", label: "최종 발표자료 · AI 재고실사 검증", href: m("in2us-inventory-check", "IN2US_final_presentation.pdf"), note: "PDF · 26쪽 · 팀원 이름 가림" },
       { kind: "video", label: "시연 영상 · 숫자의 이동", href: m("in2us-inventory-check", "video.mp4"), note: "MP4 · 약 2분" },
     ],
     privacyNote:
